@@ -1,0 +1,22 @@
+version: '3.7'
+
+services:
+  myapp:
+    build: ./
+    container_name: cloud_service
+    environment:
+      spring.datasource.url: jdbc:postgresql://database:5432/cloud_db
+      spring.jpa.hibernate.ddl-auto: create-drop
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
+  cloud_service:
+    image: postgres
+    container_name: database
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: cloud_db
+    ports:
+      - "5432:5432"

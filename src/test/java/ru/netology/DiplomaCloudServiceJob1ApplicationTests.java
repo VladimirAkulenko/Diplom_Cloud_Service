@@ -183,4 +183,8 @@ class DiplomaCloudServiceJob1ApplicationTests {
         Assertions.assertEquals("[{filename=testFile.txt, size=10}]", result.getBody().toString());
     }
 
+    @Test
+    void contextLoads() {
+    }
+
 }

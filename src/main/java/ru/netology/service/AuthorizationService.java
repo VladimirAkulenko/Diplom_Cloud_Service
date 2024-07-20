@@ -11,6 +11,8 @@ import ru.netology.model.AuthorizationResponse;
 import ru.netology.repository.TokenRepository;
 import ru.netology.repository.UserRepository;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 @Slf4j
@@ -35,6 +37,7 @@ public class AuthorizationService {
             throw new BadCredentialsException("Incorrect password for user " + loginFromRequest);
         }
         final String authToken = UUID.randomUUID().toString().replace("-", "");
+        log.info("Token generated " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")));
         tokenRepository.save(new TokenEntity(authToken));
         log.info("User " + loginFromRequest + " entered with token " + authToken);
         return new AuthorizationResponse(authToken);

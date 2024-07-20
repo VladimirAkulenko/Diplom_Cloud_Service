@@ -15,8 +15,11 @@ import static org.mockito.Mockito.when;
 public class FileServiceTest {
     public static final String EXISTING_FILE = "existingFile";
     public static final String NOT_EXISTING_FILE = "notExistingFile";
+    private static final String TYPE = "text/plain";
+    private static final long SIZE = 10;
+    private static final byte[] CONTENT = new byte[]{102, 105, 108, 101, 32, 116, 101, 115, 116, 33};
 
-    private final FileEntity existingFileEntity = new FileEntity(EXISTING_FILE, 64, "pdf/plain", new byte[]{6, 4, 6});
+    private final FileEntity existingFileEntity = new FileEntity(EXISTING_FILE, SIZE, TYPE, CONTENT);
 
     private final FileRepository fileRepository = createFileRepositoryMock();
     private final FileService fileService = new FileService(fileRepository);
@@ -37,7 +40,7 @@ public class FileServiceTest {
 
     @Test
     void getFile() {
-        final byte[] expectedFile = new byte[]{0, 1, 2};
+        final byte[] expectedFile = new byte[]{102, 105, 108, 101, 32, 116, 101, 115, 116, 33};
         final byte[] file = fileService.downloadFile(EXISTING_FILE);
         Assertions.assertArrayEquals(expectedFile, file);
     }
@@ -69,7 +72,7 @@ public class FileServiceTest {
 
     @Test
     void getFileList() {
-        final List<FileResponse> expectedFileList = List.of(new FileResponse(EXISTING_FILE, 3));
+        final List<FileResponse> expectedFileList = List.of(new FileResponse(EXISTING_FILE, 10));
         final List<FileResponse> fileList = fileService.getAllFiles(1);
         Assertions.assertEquals(expectedFileList, fileList);
     }
